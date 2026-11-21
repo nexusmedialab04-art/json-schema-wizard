@@ -1,34 +1,34 @@
 # JSON Schema Wizard
 
-**Instantly generate robust JSON schemas from raw sample data for your APIs.**
+![Live Demo](demo.gif)
 
-JSON Schema Wizard is a high-performance, 100% client-side developer tool designed to eliminate the tedious process of hand-writing and debugging complex JSON schemas.
+**JSON Schema Wizard** is a high-performance developer tool designed to instantly generate robust, validated JSON schemas from raw sample data payloads. Built for backend engineers, API developers, and QA automation teams.
 
----
+## 🚀 Key Features
 
-## Features
+- **Instant Generation:** Convert complex, deeply nested JSON samples into clean schemas in milliseconds.
+- **Privacy First:** 100% client-side architecture. Your sensitive payloads never touch an external server.
+- **Smart Inference:** Automatically detects data types, required fields, arrays, and object structures.
 
-- **Smart Type Inference:** Automatically analyzes raw JSON strings to detect strings, numbers, booleans, nested objects, arrays, and nullability.
-- **Draft-07 Compliant:** Outputs clean, standard-compliant schema definitions ready for production API validation and documentation.
-- **100% Client-Side Security:** Runs entirely in your browser using vanilla JavaScript. Your sensitive API payloads never leave your machine.
-- **Zero-Dependency Architecture:** Self-contained within a single file (`index.html`), making it effortless to host locally or deploy instantly.
+## 🔗 Quick Links
 
----
-
-## What's Included
-
-- `index.html` — The complete, production-ready single-page application.
-- `README.md` — Documentation and usage guidelines.
-- `LEGAL_DISCLAIMER` — Standard commercial and liability terms.
+- **[Try the Free Live Demo](https://nexusmedialab04-art.github.io/json-schema-wizard/)**
+- **[Get the Full Offline Pro Edition](https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github)**
 
 ---
 
-## Usage
+## 📊 Feature Matrix: Free Lite Edition vs Full Pro Edition
 
-Simply open `index.html` in any modern web browser. Paste your sample JSON into the left pane, and your generated JSON Schema will appear instantly on the right pane, ready to copy and use in your backend pipeline.
+| Feature | Free Lite Edition | Full Pro Edition |
+| :--- | :---: | :---: |
+| Client-Side Processing | ✅ | ✅ |
+| Basic Type Inference | ✅ | ✅ |
+| Advanced Nested Schema Generation | ❌ | ✅ |
+| Full Offline Capabilities | ❌ | ✅ |
+| Priority Updates & Support | ❌ | ✅ |
 
----
+Upgrade your workflow with the **[Full Pro Edition](https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github)** for offline usage and advanced enterprise features.
 
-## License & Support
+## 📄 License
 
-Provided by [AutoMicro Labs](https://automicrolabs.gumroad.com). For support and updates, check out our official Gumroad product page.
+Distributed under the MIT License. See `LICENSE` for details.
