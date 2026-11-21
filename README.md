@@ -1,30 +1,26 @@
 # JSON Schema Wizard
 
-Instantly generate robust JSON schemas from raw sample data for your APIs. Designed for developers who value speed, accuracy, and data privacy.
-
 ![Live Demo](demo.gif)
 
-## Features
+JSON Schema Wizard is a high-performance developer tool designed to instantly generate robust, compliant JSON schemas from raw sample data. Eliminate manual schema writing and ensure strict type validation for your APIs.
 
-- **Instant Generation:** Convert complex JSON payloads into valid schemas instantly.
-- **Client-Side Security:** Executes entirely in your browser. Your data never touches a remote server.
-- **Deep Nesting Support:** Automatically structures nested objects and uniform or mixed arrays.
+## 🚀 Quick Start
 
-## Try It Now
+Test the tool immediately without installation:
+👉 **[Try the Free Live Demo](https://nexusmedialab04-art.github.io/json-schema-wizard/)**
 
-- [Live Free Demo](https://nexusmedialab04-art.github.io/json-schema-wizard/)
-
-## Free Lite Edition vs Full Pro Edition
+## 📊 Feature Matrix
 
 | Feature | Free Lite Edition | Full Pro Edition |
 | :--- | :---: | :---: |
-| Instant Schema Generation | Yes | Yes |
-| Client-Side Execution | Yes | Yes |
-| Offline Mode | No | Yes |
-| Advanced Export Formats | No | Yes |
-| Priority Updates & Support | No | Yes |
+| Instant Schema Generation | ✅ | ✅ |
+| 100% Client-Side Security | ✅ | ✅ |
+| Offline Functionality | ❌ | ✅ |
+| Advanced Type Customization | ❌ | ✅ |
+| Priority Updates & Support | ❌ | ✅ |
 
-Get access to advanced developer tooling: [Full Pro Edition](https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github).
+Get unrestricted access to the complete toolkit:
+👉 **[Get the Full Offline Pro Edition](https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github)**
 
----
-*For legal information, see [LEGAL_DISCLAIMER](LEGAL_DISCLAIMER).*
+## 🛡️ Privacy & Security
+All processing happens locally within your browser runtime using modern JavaScript parsers. Your data remains strictly on your machine.
