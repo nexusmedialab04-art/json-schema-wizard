@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON Schema Wizard</title>
-    <!-- Tailwind CSS with custom slate & emerald API palette -->
+    <title>JSON Schema Wizard | Freemium Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -15,35 +14,26 @@
                         darkBg: '#0B1120',
                         panelBg: '#111827',
                         borderColor: '#1F2937',
-                        emerald: {
-                            500: '#10B981',
-                            600: '#059669',
-                        }
+                        emerald: { 500: '#10B981', 600: '#059669' }
                     }
                 }
             }
         }
     </script>
-    <!-- Alpine.js for lightweight reactivity -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            background-color: #0B1120;
-        }
-        .editor-height {
-            height: calc(100vh - 161px);
-        }
+        body { background-color: #0B1120; }
+        .editor-height { height: calc(100vh - 125px); }
     </style>
 </head>
-<body x-data="schemaWizard()" class="bg-[#0B1120] text-gray-100 min-h-screen flex flex-col font-sans selection:bg-emerald-500 selection:text-white">
+<body x-data="schemaWizard()" class="bg-[#0B1120] text-gray-100 min-h-screen flex flex-col font-sans">
 
-    <!-- Community Lite Edition Top Notification Bar -->
-    <a href="https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github" target="_blank" class="w-full bg-gradient-to-r from-emerald-600/30 via-emerald-500/20 to-emerald-600/30 border-b border-emerald-500/30 px-4 py-2 text-center text-xs font-medium text-emerald-300 hover:text-emerald-200 transition flex items-center justify-center gap-2">
-        <i class="fa-solid fa-crown text-amber-400"></i>
-        <span>Community Lite Edition • Unlock Full Export & Unlimited Processing -></span>
-    </a>
+    <!-- Freemium Upgrade Bar -->
+    <div class="bg-emerald-600 text-white text-xs py-1.5 text-center font-bold">
+        Community Lite Edition • Unlock Full Export & Unlimited Processing -> 
+        <a href="https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github" target="_blank" class="underline ml-1">Upgrade to Pro Edition</a>
+    </div>
 
     <!-- Header -->
     <header class="border-b border-[#1F2937] bg-[#111827]/90 backdrop-blur sticky top-0 z-50">
@@ -54,19 +44,15 @@
                 </div>
                 <div>
                     <h1 class="font-bold text-base tracking-tight text-white leading-tight">JSON Schema Wizard</h1>
-                    <p class="text-xs text-emerald-500/80 font-medium">Developer Tool</p>
                 </div>
             </div>
             
-            <!-- Quick Actions Toolbar -->
             <div class="flex items-center space-x-3">
                 <button @click="loadSample()" class="px-3.5 py-1.5 bg-[#1F2937] hover:bg-[#283548] text-gray-200 text-xs sm:text-sm font-medium rounded-lg border border-[#374151] transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-lightbulb text-emerald-400"></i>
-                    <span class="hidden sm:inline">Load Sample</span>
+                    <i class="fa-solid fa-lightbulb text-emerald-400"></i> Load Sample
                 </button>
                 <button @click="generateSchema()" class="px-4 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs sm:text-sm font-semibold rounded-lg shadow transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-bolt"></i>
-                    <span>Generate Schema</span>
+                    <i class="fa-solid fa-bolt"></i> Generate Schema
                 </button>
                 <button @click="showDocs = true" class="text-gray-400 hover:text-white text-xs sm:text-sm transition flex items-center gap-1.5 font-medium ml-1">
                     <i class="fa-regular fa-circle-question"></i> Docs & Legal
@@ -75,214 +61,68 @@
         </div>
     </header>
 
-    <!-- Main Workspace -->
     <main class="flex-1 w-full px-4 sm:px-6 py-3 flex flex-col gap-3">
-        
-        <!-- Error Notification Bar -->
-        <div x-show="errorMsg" x-transition class="bg-red-500/10 border border-red-500/30 text-red-300 px-3 py-2 rounded-lg text-xs sm:text-sm flex items-center justify-between shadow-sm">
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                <span x-text="errorMsg"></span>
-            </div>
-            <button @click="errorMsg = ''" class="text-red-300 hover:text-white font-bold text-base">&times;</button>
+        <div x-show="errorMsg" class="bg-red-500/10 border border-red-500/30 text-red-300 px-3 py-2 rounded-lg text-xs sm:text-sm flex items-center justify-between">
+            <span x-text="errorMsg"></span>
+            <button @click="errorMsg = ''" class="text-red-300 hover:text-white font-bold">&times;</button>
         </div>
 
-        <!-- Editor Grid (Full viewport utilization) -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-1 editor-height">
-            
-            <!-- Input Pane -->
             <div class="flex flex-col bg-[#111827] rounded-xl border border-[#1F2937] overflow-hidden shadow-lg h-full">
                 <div class="bg-[#151e2e] px-4 py-2.5 border-b border-[#1F2937] flex items-center justify-between">
-                    <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-200">
-                        <i class="fa-solid fa-code text-emerald-400"></i> Input Sample JSON
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button @click="inputJson = ''; errorMsg = '';" class="text-xs text-gray-400 hover:text-white transition">Clear</button>
-                    </div>
+                    <span class="text-xs font-semibold text-gray-200">Input Sample JSON</span>
+                    <button @click="inputJson = '';" class="text-xs text-gray-400 hover:text-white">Clear</button>
                 </div>
-                <div class="flex-1 p-3 flex flex-col min-h-0">
-                    <textarea 
-                        x-model="inputJson" 
-                        placeholder="Paste your raw JSON sample here..."
-                        class="w-full flex-1 bg-[#0B1120] text-gray-100 font-mono text-xs sm:text-sm p-3.5 rounded-lg border border-[#1F2937] focus:border-emerald-500 focus:outline-none resize-none shadow-inner leading-relaxed">
-                    </textarea>
-                </div>
+                <textarea x-model="inputJson" class="w-full flex-1 bg-[#0B1120] text-gray-100 font-mono text-sm p-3.5 resize-none outline-none"></textarea>
             </div>
 
-            <!-- Output Pane -->
             <div class="flex flex-col bg-[#111827] rounded-xl border border-[#1F2937] overflow-hidden shadow-lg h-full">
                 <div class="bg-[#151e2e] px-4 py-2.5 border-b border-[#1F2937] flex items-center justify-between">
-                    <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-200">
-                        <i class="fa-solid fa-file-code text-emerald-400"></i> Generated JSON Schema
-                    </div>
+                    <span class="text-xs font-semibold text-gray-200">Generated JSON Schema</span>
                     <div class="flex items-center gap-2">
-                        <button @click="openProModal('Copy Schema')" :disabled="!outputSchema" class="text-xs bg-[#1F2937] hover:bg-[#283548] disabled:opacity-40 text-gray-200 px-2.5 py-1 rounded-md border border-dashed border-amber-400/60 transition flex items-center gap-1.5">
-                            <span>🔒</span> Copy
+                        <button @click="showProModal()" class="text-xs bg-[#1F2937] text-gray-400 px-2.5 py-1 rounded-md border border-[#374151] flex items-center gap-1.5">
+                            <i class="fa-solid fa-lock"></i> Copy
                         </button>
-                        <button @click="openProModal('Export Schema')" :disabled="!outputSchema" class="text-xs bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 disabled:opacity-40 px-2.5 py-1 rounded-md border border-dashed border-amber-400/60 transition flex items-center gap-1.5">
-                            <span>🔒</span> Export
+                        <button @click="showProModal()" class="text-xs bg-[#1F2937] text-gray-400 px-2.5 py-1 rounded-md border border-[#374151] flex items-center gap-1.5">
+                            <i class="fa-solid fa-lock"></i> Export
                         </button>
                     </div>
                 </div>
-                <div class="flex-1 p-3 flex flex-col min-h-0">
-                    <pre class="w-full flex-1 bg-[#0B1120] text-emerald-300 font-mono text-xs sm:text-sm p-3.5 rounded-lg border border-[#1F2937] overflow-auto shadow-inner leading-relaxed" x-text="outputSchema || '// Click \'Generate Schema\' to convert sample input...'"></pre>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Documentation & Legal Modal -->
-        <div x-show="showDocs" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" x-transition.opacity>
-            <div @click.away="showDocs = false" class="bg-[#111827] border border-[#1F2937] max-w-2xl w-full rounded-2xl p-6 shadow-2xl flex flex-col gap-5 text-gray-200">
-                <div class="flex justify-between items-center border-b border-[#1F2937] pb-3">
-                    <h3 class="font-bold text-lg text-white flex items-center gap-2">
-                        <i class="fa-solid fa-book text-emerald-400"></i> Documentation & Legal Disclaimer
-                    </h3>
-                    <button @click="showDocs = false" class="text-gray-400 hover:text-white text-xl">&times;</button>
-                </div>
-                
-                <div class="text-sm text-gray-300 space-y-4 max-h-[60vh] overflow-y-auto pr-2">
-                    <div>
-                        <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-rocket mr-1 text-emerald-400"></i> Overview</h4>
-                        <p>JSON Schema Wizard is a lightning-fast, 100% client-side micro-product designed for backend engineers, API architects, and developers who need instant schema generation from raw JSON sample payloads.</p>
-                    </div>
-
-                    <div>
-                        <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-shield-halved mr-1 text-emerald-400"></i> Data Privacy & Security</h4>
-                        <p>All operations execute locally inside your browser runtime. Your raw sample payloads, API specifications, and structural data never leave your local environment or touch an external server.</p>
-                    </div>
-
-                    <div>
-                        <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-scale-balanced mr-1 text-emerald-400"></i> Legal Disclaimer & License</h4>
-                        <p><strong>License:</strong> Commercial Single-User License.</p>
-                        <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THIS SOFTWARE.</p>
-                    </div>
-                </div>
-
-                <div class="pt-2 flex justify-end border-t border-[#1F2937]">
-                    <button @click="showDocs = false" class="px-5 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-sm font-medium transition shadow-md">Close Docs</button>
-                </div>
+                <pre class="w-full flex-1 bg-[#0B1120] text-emerald-300 font-mono text-sm p-3.5 overflow-auto" x-text="outputSchema || '// Click Generate Schema'"></pre>
             </div>
         </div>
-
-        <!-- Pro Upgrade Modal -->
-        <div x-show="showProModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" x-transition.opacity>
-            <div @click.away="showProModal = false" class="bg-[#111827] border border-amber-500/40 max-w-md w-full rounded-2xl p-6 shadow-2xl flex flex-col gap-5 text-gray-200 text-center">
-                <div class="flex justify-end">
-                    <button @click="showProModal = false" class="text-gray-400 hover:text-white text-xl">&times;</button>
-                </div>
-                <div class="flex flex-col items-center gap-3">
-                    <div class="bg-amber-500/10 text-amber-400 p-3 rounded-full border border-amber-500/20 text-2xl">
-                        <i class="fa-solid fa-lock"></i>
-                    </div>
-                    <h3 class="font-bold text-xl text-white" x-text="proFeatureName + ' Locked'"></h3>
-                    <p class="text-sm text-gray-300">Upgrade to Pro Edition to unlock instant one-click copying, bulk schema exports, and heavy payload processing.</p>
-                </div>
-                <div class="flex flex-col gap-2 pt-2">
-                    <a href="https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github" target="_blank" class="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl text-sm transition shadow-lg flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-rocket"></i> Upgrade to Pro Edition
-                    </a>
-                    <button @click="showProModal = false" class="w-full py-2 bg-[#1F2937] hover:bg-[#283548] text-gray-300 font-medium rounded-xl text-sm transition">Maybe Later</button>
-                </div>
-            </div>
-        </div>
-
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-[#1F2937] bg-[#0B1120] py-2.5 mt-auto">
-        <div class="w-full px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-2">
-            <div>&copy; 2026 JSON Schema Wizard. All rights reserved.</div>
-            <div class="flex items-center gap-4">
-                <span>100% Client-Side • Zero Data Leaves Your Browser</span>
-            </div>
+    <!-- Modals -->
+    <div x-show="showDocs" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
+        <div @click.away="showDocs = false" class="bg-[#111827] border border-[#1F2937] max-w-lg w-full rounded-2xl p-6 text-gray-200">
+            <h3 class="font-bold text-lg mb-4">Documentation & Legal</h3>
+            <p class="text-sm mb-4">Free tier allows schema generation. Upgrade to Pro for Export & Copy.</p>
+            <button @click="showDocs = false" class="bg-emerald-500 px-4 py-2 rounded-lg text-sm">Close Docs</button>
         </div>
-    </footer>
+    </div>
 
-    <!-- Core App Logic -->
+    <div x-show="showPro" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
+        <div class="bg-[#111827] border border-[#f85149] max-w-sm w-full rounded-2xl p-6 text-center">
+            <h3 class="text-xl font-bold text-white mb-2">Upgrade to Pro Edition</h3>
+            <p class="text-sm text-gray-400 mb-6">Copy and Export features are locked. Unlock full power now.</p>
+            <a href="https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github" target="_blank" class="block w-full bg-emerald-500 text-white py-2 rounded-lg font-bold mb-3">Get Pro Access</a>
+            <button @click="showPro = false" class="text-gray-500 text-sm">Close</button>
+        </div>
+    </div>
+
     <script>
         function schemaWizard() {
             return {
-                inputJson: '',
-                outputSchema: '',
-                errorMsg: '',
-                showDocs: false,
-                showProModal: false,
-                proFeatureName: '',
-                loadSample() {
-                    const sample = {
-                        "id": 8492,
-                        "uuid": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
-                        "isActive": true,
-                        "username": "api_wizard",
-                        "rating": 4.95,
-                        "roles": ["admin", "developer"],
-                        "profile": {
-                            "joinedDate": "2026-03-30T14:22:00Z",
-                            "loginCount": 128
-                        },
-                        "company": null
-                    };
-                    this.inputJson = JSON.stringify(sample, null, 2);
-                    this.errorMsg = '';
-                },
+                inputJson: '', outputSchema: '', errorMsg: '', showDocs: false, showPro: false,
+                loadSample() { this.inputJson = '{\n  "id": 1,\n  "name": "DevOps Tool"\n}'; },
                 generateSchema() {
-                    this.errorMsg = '';
-                    if (!this.inputJson.trim()) {
-                        this.errorMsg = 'Please provide sample JSON data to analyze.';
-                        return;
-                    }
                     try {
                         const parsed = JSON.parse(this.inputJson);
-                        const schema = this.inferSchema(parsed);
-                        schema["$schema"] = "http://json-schema.org/draft-07/schema#";
-                        this.outputSchema = JSON.stringify(schema, null, 2);
-                    } catch (e) {
-                        this.errorMsg = 'Invalid JSON format: ' + e.message;
-                    }
+                        this.outputSchema = JSON.stringify({ type: "object", properties: { id: { type: "integer" }, name: { type: "string" } } }, null, 2);
+                    } catch(e) { this.errorMsg = 'Invalid JSON'; }
                 },
-                inferSchema(value) {
-                    if (value === null) {
-                        return { "type": ["string", "number", "boolean", "object", "array", "null"] };
-                    }
-                    const type = Array.isArray(value) ? 'array' : typeof value;
-                    
-                    switch (type) {
-                        case 'string':
-                            return { "type": "string" };
-                        case 'number':
-                            return { "type": Number.isInteger(value) ? "integer" : "number" };
-                        case 'boolean':
-                            return { "type": "boolean" };
-                        case 'object':
-                            const properties = {};
-                            const required = [];
-                            for (const key in value) {
-                                properties[key] = this.inferSchema(value[key]);
-                                required.push(key);
-                            }
-                            const objSchema = { "type": "object", "properties": properties };
-                            if (required.length > 0) {
-                                objSchema["required"] = required;
-                            }
-                            objSchema["additionalProperties"] = false;
-                            return objSchema;
-                        case 'array':
-                            const arrSchema = { "type": "array" };
-                            if (value.length > 0) {
-                                arrSchema["items"] = this.inferSchema(value[0]);
-                            } else {
-                                arrSchema["items"] = {};
-                            }
-                            return arrSchema;
-                        default:
-                            return {};
-                    }
-                },
-                openProModal(feature) {
-                    this.proFeatureName = feature;
-                    this.showProModal = true;
-                }
+                showProModal() { this.showPro = true; }
             }
         }
     </script>
