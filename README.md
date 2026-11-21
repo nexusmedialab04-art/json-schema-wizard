@@ -1,34 +1,30 @@
 # JSON Schema Wizard
 
+Instantly generate robust JSON schemas from raw sample data for your APIs. Designed for developers who value speed, accuracy, and data privacy.
+
 ![Live Demo](demo.gif)
 
-**JSON Schema Wizard** is a high-performance developer tool designed to instantly generate robust, validated JSON schemas from raw sample data payloads. Built for backend engineers, API developers, and QA automation teams.
+## Features
 
-## 🚀 Key Features
+- **Instant Generation:** Convert complex JSON payloads into valid schemas instantly.
+- **Client-Side Security:** Executes entirely in your browser. Your data never touches a remote server.
+- **Deep Nesting Support:** Automatically structures nested objects and uniform or mixed arrays.
 
-- **Instant Generation:** Convert complex, deeply nested JSON samples into clean schemas in milliseconds.
-- **Privacy First:** 100% client-side architecture. Your sensitive payloads never touch an external server.
-- **Smart Inference:** Automatically detects data types, required fields, arrays, and object structures.
+## Try It Now
 
-## 🔗 Quick Links
+- [Live Free Demo](https://nexusmedialab04-art.github.io/json-schema-wizard/)
 
-- **[Try the Free Live Demo](https://nexusmedialab04-art.github.io/json-schema-wizard/)**
-- **[Get the Full Offline Pro Edition](https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github)**
-
----
-
-## 📊 Feature Matrix: Free Lite Edition vs Full Pro Edition
+## Free Lite Edition vs Full Pro Edition
 
 | Feature | Free Lite Edition | Full Pro Edition |
 | :--- | :---: | :---: |
-| Client-Side Processing | ✅ | ✅ |
-| Basic Type Inference | ✅ | ✅ |
-| Advanced Nested Schema Generation | ❌ | ✅ |
-| Full Offline Capabilities | ❌ | ✅ |
-| Priority Updates & Support | ❌ | ✅ |
+| Instant Schema Generation | Yes | Yes |
+| Client-Side Execution | Yes | Yes |
+| Offline Mode | No | Yes |
+| Advanced Export Formats | No | Yes |
+| Priority Updates & Support | No | Yes |
 
-Upgrade your workflow with the **[Full Pro Edition](https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github)** for offline usage and advanced enterprise features.
+Get access to advanced developer tooling: [Full Pro Edition](https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github).
 
-## 📄 License
-
-Distributed under the MIT License. See `LICENSE` for details.
+---
+*For legal information, see [LEGAL_DISCLAIMER](LEGAL_DISCLAIMER).*
