@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON Schema Wizard - Community Lite Edition</title>
+    <title>JSON Schema Wizard - Free Demo Edition</title>
     <!-- Tailwind CSS with custom slate & emerald API palette -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -33,20 +33,17 @@
             background-color: #0B1120;
         }
         .editor-height {
-            height: calc(100vh - 160px);
+            height: calc(100vh - 150px);
         }
     </style>
 </head>
 <body x-data="schemaWizard()" class="bg-[#0B1120] text-gray-100 min-h-screen flex flex-col font-sans selection:bg-emerald-500 selection:text-white">
 
-    <!-- Top Freemium Upgrade Banner -->
-    <aside class="bg-gradient-to-r from-emerald-950/80 via-slate-900 to-emerald-950/80 border-b border-emerald-500/30 text-xs py-2 px-4 text-center text-emerald-300 flex items-center justify-center gap-2">
-        <span>Community Lite Edition &bull; Unlock Full Export & Unlimited Processing</span>
-        <a href="https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github" target="_blank" rel="noopener noreferrer" class="font-semibold underline text-white hover:text-emerald-200 transition inline-flex items-center gap-1">
-            <span>Upgrade to Pro Edition</span>
-            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-        </a>
-    </aside>
+    <!-- Top Demo Banner -->
+    <div class="bg-emerald-600 text-white text-xs py-1.5 px-4 text-center font-medium">
+        Free Demo Edition (Preloaded Sample Only) — Unlock Full Features & Custom Input in Pro Edition &rarr; 
+        <a href="https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github" target="_blank" class="underline font-bold hover:text-emerald-200 ml-1">Unlock Pro Edition</a>
+    </div>
 
     <!-- Header -->
     <header class="border-b border-[#1F2937] bg-[#111827]/90 backdrop-blur sticky top-0 z-50">
@@ -57,7 +54,7 @@
                 </div>
                 <div>
                     <h1 class="font-bold text-base tracking-tight text-white leading-tight">JSON Schema Wizard</h1>
-                    <p class="text-xs text-emerald-500/80 font-medium">Community Lite Edition</p>
+                    <p class="text-xs text-emerald-500/80 font-medium">AutoMicro Labs Product (Free Demo)</p>
                 </div>
             </div>
             
@@ -70,9 +67,6 @@
                 <button @click="generateSchema()" class="px-4 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs sm:text-sm font-semibold rounded-lg shadow transition flex items-center gap-1.5">
                     <i class="fa-solid fa-bolt"></i>
                     <span>Generate Schema</span>
-                </button>
-                <button @click="showDocs = true" class="text-gray-400 hover:text-white text-xs sm:text-sm transition flex items-center gap-1.5 font-medium ml-1">
-                    <i class="fa-regular fa-circle-question"></i> Docs & Legal
                 </button>
             </div>
         </div>
@@ -99,14 +93,12 @@
                     <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-200">
                         <i class="fa-solid fa-code text-emerald-400"></i> Input Sample JSON
                     </div>
-                    <div class="flex items-center gap-2">
-                        <button @click="inputJson = ''; errorMsg = '';" class="text-xs text-gray-400 hover:text-white transition">Clear</button>
-                    </div>
                 </div>
                 <div class="flex-1 p-3 flex flex-col min-h-0">
                     <textarea 
                         x-model="inputJson" 
-                        placeholder="Paste your raw JSON sample here..."
+                        readonly
+                        placeholder="Click 'Load Sample' to populate preloaded JSON..."
                         class="w-full flex-1 bg-[#0B1120] text-gray-100 font-mono text-xs sm:text-sm p-3.5 rounded-lg border border-[#1F2937] focus:border-emerald-500 focus:outline-none resize-none shadow-inner leading-relaxed">
                     </textarea>
                 </div>
@@ -118,30 +110,6 @@
                     <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-200">
                         <i class="fa-solid fa-file-code text-emerald-400"></i> Generated JSON Schema
                     </div>
-                    <div class="flex items-center gap-2">
-                        <span x-show="copied" x-transition class="text-xs text-emerald-400 font-medium"><i class="fa-solid fa-check mr-1"></i> Copied!</span>
-                        
-                        <!-- Copy Button (1 free use per session, locked afterwards) -->
-                        <button 
-                            @click="copySchema()" 
-                            :disabled="!outputSchema" 
-                            class="text-xs bg-[#1F2937] hover:bg-[#283548] disabled:opacity-40 text-gray-200 px-2.5 py-1 rounded-md border border-[#374151] transition flex items-center gap-1.5"
-                            :class="copyCount >= 1 ? 'border-amber-500/40 text-amber-300' : ''">
-                            <span x-show="copyCount === 0" class="flex items-center gap-1">
-                                <i class="fa-regular fa-copy"></i> Copy
-                            </span>
-                            <span x-show="copyCount >= 1" class="flex items-center gap-1">
-                                <span>🔒</span> Copy
-                            </span>
-                        </button>
-
-                        <!-- Export Button (Total paywall block) -->
-                        <button 
-                            @click="triggerProModal('Export Schemas')" 
-                            class="text-xs bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 px-2.5 py-1 rounded-md border border-emerald-500/30 transition flex items-center gap-1.5">
-                            <span>🔒</span> Export
-                        </button>
-                    </div>
                 </div>
                 <div class="flex-1 p-3 flex flex-col min-h-0">
                     <pre class="w-full flex-1 bg-[#0B1120] text-emerald-300 font-mono text-xs sm:text-sm p-3.5 rounded-lg border border-[#1F2937] overflow-auto shadow-inner leading-relaxed" x-text="outputSchema || '// Click \'Generate Schema\' to convert sample input...'"></pre>
@@ -150,90 +118,14 @@
 
         </div>
 
-        <!-- Upgrade to Pro Modal -->
-        <div x-show="showProModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" x-transition.opacity>
-            <div @click.away="showProModal = false" class="bg-[#111827] border border-emerald-500/40 max-w-md w-full rounded-2xl p-6 shadow-2xl flex flex-col gap-4 text-gray-200 text-center">
-                <div class="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto text-emerald-400 text-xl">
-                    <i class="fa-solid fa-lock"></i>
-                </div>
-                <div>
-                    <h3 class="font-bold text-xl text-white">Upgrade to Pro Edition</h3>
-                    <p class="text-sm text-gray-300 mt-1">
-                        <span x-text="lockedFeature"></span> is a Pro feature. Unlock unlimited exports, unconstrained clipboard operations, and priority productivity tools.
-                    </p>
-                </div>
-                <div class="p-3 bg-[#0B1120] rounded-xl border border-[#1F2937] text-left text-xs space-y-2 text-gray-300">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-check text-emerald-400"></i>
-                        <span>Unlimited schema clipboard copies</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-check text-emerald-400"></i>
-                        <span>Instant file export (.json &amp; .schema)</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-check text-emerald-400"></i>
-                        <span>Unrestricted developer workflow integration</span>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-2 pt-2">
-                    <a 
-                        href="https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        class="w-full py-2.5 px-4 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl text-sm transition shadow-lg flex items-center justify-center gap-2">
-                        <span>Upgrade to Pro Edition</span>
-                        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                    </a>
-                    <button @click="showProModal = false" class="text-xs text-gray-400 hover:text-white py-1 transition">
-                        Maybe later
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Documentation & Legal Modal -->
-        <div x-show="showDocs" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" x-transition.opacity>
-            <div @click.away="showDocs = false" class="bg-[#111827] border border-[#1F2937] max-w-2xl w-full rounded-2xl p-6 shadow-2xl flex flex-col gap-5 text-gray-200">
-                <div class="flex justify-between items-center border-b border-[#1F2937] pb-3">
-                    <h3 class="font-bold text-lg text-white flex items-center gap-2">
-                        <i class="fa-solid fa-book text-emerald-400"></i> Documentation & Legal Disclaimer
-                    </h3>
-                    <button @click="showDocs = false" class="text-gray-400 hover:text-white text-xl">&times;</button>
-                </div>
-                
-                <div class="text-sm text-gray-300 space-y-4 max-h-[60vh] overflow-y-auto pr-2">
-                    <div>
-                        <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-rocket mr-1 text-emerald-400"></i> Overview</h4>
-                        <p>JSON Schema Wizard is a lightning-fast, 100% client-side micro-product designed for backend engineers, API architects, and developers who need instant schema generation from raw JSON sample payloads.</p>
-                    </div>
-
-                    <div>
-                        <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-shield-halved mr-1 text-emerald-400"></i> Data Privacy & Security</h4>
-                        <p>All operations execute locally inside your browser runtime. Your raw sample payloads, API specifications, and structural data never leave your local environment or touch an external server.</p>
-                    </div>
-
-                    <div>
-                        <h4 class="font-bold text-white mb-1"><i class="fa-solid fa-scale-balanced mr-1 text-emerald-400"></i> Legal Disclaimer & License</h4>
-                        <p><strong>License:</strong> Community Lite Edition.</p>
-                        <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THIS SOFTWARE.</p>
-                    </div>
-                </div>
-
-                <div class="pt-2 flex justify-end border-t border-[#1F2937]">
-                    <button @click="showDocs = false" class="px-5 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-sm font-medium transition shadow-md">Close Docs</button>
-                </div>
-            </div>
-        </div>
-
     </main>
 
     <!-- Footer -->
     <footer class="border-t border-[#1F2937] bg-[#0B1120] py-2.5 mt-auto">
         <div class="w-full px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-2">
-            <div>&copy; 2026 JSON Schema Wizard. All rights reserved.</div>
+            <div>&copy; 2026 AutoMicro Labs. All rights reserved.</div>
             <div class="flex items-center gap-4">
-                <span>100% Client-Side • Zero Data Leaves Your Browser</span>
+                <span>100% Client-Side • Free Demo Edition</span>
             </div>
         </div>
     </footer>
@@ -245,11 +137,7 @@
                 inputJson: '',
                 outputSchema: '',
                 errorMsg: '',
-                copied: false,
-                showDocs: false,
-                copyCount: 0,
-                showProModal: false,
-                lockedFeature: '',
+                liteRunCount: 0,
                 loadSample() {
                     const sample = {
                         "id": 8492,
@@ -268,9 +156,14 @@
                     this.errorMsg = '';
                 },
                 generateSchema() {
+                    this.liteRunCount++;
+                    if (this.liteRunCount > 2) {
+                        this.outputSchema = "// Session execution limit reached (Maximum 2 runs per session in Free Demo Edition).\n// To analyze custom JSON payloads and generate full schema trees, get the Pro Edition:\n// https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github";
+                        return;
+                    }
                     this.errorMsg = '';
                     if (!this.inputJson.trim()) {
-                        this.errorMsg = 'Please provide sample JSON data to analyze.';
+                        this.errorMsg = 'Please click "Load Sample" to load demo JSON data first.';
                         return;
                     }
                     try {
@@ -298,7 +191,8 @@
                         case 'object':
                             const properties = {};
                             const required = [];
-                            for (const key in value) {
+                            const keys = Object.keys(value).slice(0, 3);
+                            for (const key of keys) {
                                 properties[key] = this.inferSchema(value[key]);
                                 required.push(key);
                             }
@@ -307,6 +201,7 @@
                                 objSchema["required"] = required;
                             }
                             objSchema["additionalProperties"] = false;
+                            objSchema["_pro_notice"] = "Truncated preview (first 3 properties only). Unlock full nested schemas in Pro Edition: https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github";
                             return objSchema;
                         case 'array':
                             const arrSchema = { "type": "array" };
@@ -319,24 +214,54 @@
                         default:
                             return {};
                     }
-                },
-                triggerProModal(featureName) {
-                    this.lockedFeature = featureName;
-                    this.showProModal = true;
-                },
-                copySchema() {
-                    if (this.copyCount >= 1) {
-                        this.triggerProModal('Unlimited Clipboard Copy');
-                        return;
-                    }
-                    if (!this.outputSchema) return;
-                    navigator.clipboard.writeText(this.outputSchema);
-                    this.copied = true;
-                    this.copyCount++;
-                    setTimeout(() => { this.copied = false; }, 2000);
                 }
             }
         }
     </script>
+
+<style id="lite-anticopy-shield-css">
+  html, body, body * { -webkit-user-select: none !important; -moz-user-select: none !important; -ms-user-select: none !important; user-select: none !important; -webkit-touch-callout: none !important; }
+  body * { pointer-events: none !important; }
+  button, a, select, summary, input[type="radio"], input[type="checkbox"], [role="tab"], [data-lite-allow], #lite-copy-toast, #lite-copy-toast * { pointer-events: auto !important; }
+  #lite-copy-toast { position: fixed; bottom: 22px; right: 22px; z-index: 999999; background: #0f172a; color: #f8fafc; border: 1px solid #38bdf8; border-radius: 10px; padding: 12px 18px; font-family: system-ui, -apple-system, sans-serif; font-size: 13px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); display: none; align-items: center; gap: 12px; }
+  #lite-copy-toast a { color: #38bdf8; font-weight: 700; text-decoration: underline; }
+</style>
+<div id="lite-copy-toast">
+  <span>Selection, right-click &amp; copying are disabled in the Free Demo.</span>
+  <a href="https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github" target="_blank" rel="noopener">Get Full Pro Edition &rarr;</a>
+</div>
+<script id="lite-anticopy-shield">
+(function() {
+  var toastTimer = null;
+  function mostrarAviso() {
+    var t = document.getElementById("lite-copy-toast");
+    if (!t) return;
+    t.style.display = "flex";
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() { t.style.display = "none"; }, 3600);
+  }
+  document.addEventListener("contextmenu", function(e) { e.preventDefault(); mostrarAviso(); }, true);
+  document.addEventListener("selectstart", function(e) { e.preventDefault(); }, true);
+  document.addEventListener("copy", function(e) { e.preventDefault(); if (e.clipboardData) e.clipboardData.setData("text/plain", "Full Pro Edition: https://bobservice.gumroad.com/l/json-schema-wizard?utm_source=github"); mostrarAviso(); }, true);
+  document.addEventListener("cut", function(e) { e.preventDefault(); mostrarAviso(); }, true);
+  document.addEventListener("keydown", function(e) {
+    var ctrl = e.ctrlKey || e.metaKey, key = (e.key || "").toLowerCase();
+    if (e.key === "F12" || (ctrl && (key === "u" || key === "s" || key === "c" || key === "a" || key === "x")) || (ctrl && e.shiftKey && (key === "i" || key === "j" || key === "c"))) { e.preventDefault(); mostrarAviso(); }
+  }, true);
+  var TIPOS = ["", "text", "number", "search", "email", "url", "tel", "password", "date"];
+  function esTexto(el) { return el && (el.tagName === "TEXTAREA" || (el.tagName === "INPUT" && TIPOS.indexOf((el.getAttribute("type") || "").toLowerCase()) !== -1)); }
+  function bloquear() {
+    var cs = document.querySelectorAll("textarea, input");
+    for (var i = 0; i < cs.length; i++) if (esTexto(cs[i])) { cs[i].readOnly = true; cs[i].setAttribute("readonly", "readonly"); }
+  }
+  bloquear();
+  if (window.MutationObserver) new MutationObserver(bloquear).observe(document.documentElement, { childList: true, subtree: true });
+  ["paste", "drop", "dragover", "dragenter", "beforeinput"].forEach(function(n) { document.addEventListener(n, function(e) { e.preventDefault(); if (n === "paste") mostrarAviso(); }, true); });
+  document.addEventListener("keydown", function(e) { if (esTexto(e.target) && e.key !== "Tab") e.preventDefault(); }, true);
+  try { document.execCommand = function() { return false; }; } catch (err) {}
+  try { if (navigator.clipboard) navigator.clipboard.writeText = function() { return Promise.reject(new Error("disabled")); }; } catch (err) {}
+})();
+</script>
+
 </body>
 </html>
